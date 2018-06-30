@@ -48,7 +48,11 @@ stack
 ---------- 0
 ```
 
-## Thanks
+## Thanks / Resources
+
+The [BCM2835 Peripheral Manual](https://web.stanford.edu/class/cs140e/docs/BCM2837-ARM-Peripherals.pdf)
+has lots of the random addresses used for driver stuff. If you see a reference to `(Section X.X)`
+in comments it's referring to this.
 
 Lots of bits pulled from:
 - [bztsrc's "Bare Metal Programming" tutorial](https://github.com/bztsrc/raspi3-tutorial)
