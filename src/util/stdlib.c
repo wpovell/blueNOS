@@ -1,20 +1,5 @@
 #include "util/stdlib.h"
 
-void memcpy(void *dest, const void *src, int bytes) {
-  char *d = dest;
-  const char *s = src;
-  while (bytes--) {
-    *d++ = *s++;
-  }
-}
-
-void bzero(void *dest, int bytes) {
-  char *d = dest;
-  while (bytes--) {
-    *d++ = 0;
-  }
-}
-
 char *itoa(int num, int base) {
   static char intbuf[32];
   uint32_t j = 0, isneg = 0, i;
@@ -64,28 +49,4 @@ char *itoa(int num, int base) {
   }
 
   return intbuf;
-}
-
-int atoi(char *num) {
-  int res = 0, power = 0, digit, i;
-  char *start = num;
-
-  // Find the end
-  while (*num >= '0' && *num <= '9') {
-    num++;
-  }
-
-  num--;
-
-  while (num != start) {
-    digit = *num - '0';
-    for (i = 0; i < power; i++) {
-      digit *= 10;
-    }
-    res += digit;
-    power++;
-    num--;
-  }
-
-  return res;
 }

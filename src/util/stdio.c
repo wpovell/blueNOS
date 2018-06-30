@@ -25,8 +25,9 @@ void gets(char *buf, int buflen) {
   putc('\n');
   if (c == '\n') {
     buf[i] = '\0';
-  } else
+  } else {
     buf[buflen - 1] = '\0';
+  }
 }
 
 void printf(const char *fmt, ...) {

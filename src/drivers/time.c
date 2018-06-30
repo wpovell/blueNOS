@@ -1,5 +1,6 @@
 #include "drivers/base.h"
 #include "drivers/time.h"
+#include "util/stdlib.h"
 
 /* All the magic here is described in Section 12 */
 
