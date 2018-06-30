@@ -3,11 +3,11 @@
 .globl _start
 _start:
 	mrs	x0, mpidr_el1   // Get processor id
-	and	x0, x0,#0xFF	  // Get first two bytes
-	cbz	x0, start		    // If CPU == 0, break to start
-	b	hang              // Hang all other processors
+	and	x0, x0,#0xFF	// Get first two bytes
+	cbz	x0, start	// If CPU == 0, break to start
+	b	hang            // Hang all other processors
 
-hang:
+hang:                           // Loop de loop!
 	b hang
 
 start:
