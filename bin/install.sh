@@ -5,20 +5,29 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [[ -z $1 ]]; then
-  1=/dev/mmcblk0p1
+  DEVICE=/dev/mmcblk0p1
+else
+  DEVICE=$1
 fi
 
-if [[ ! -e $1 ]]; then
+if [[ ! -e $DEVICE ]]; then
   echo "Insert SD card first."
   exit 1
 fi
 
-mkdir -p mnt
-mount $1 mnt
-cp build/kernel8.img mnt/
-cp disk/* mnt/
+make clean all >/dev/null
+
+DIR=$(mktemp -d)
+mount $DEVICE $DIR
+
+cp build/kernel8.img $DIR
+cp disk/* $DIR
+
 echo "Current boot partition contents:"
-ls mnt
-umount mnt
-rm -rf mnt
+ls $DIR
+
+umount $DIR
+rm -rf $DIR
+make clean >/dev/null
+
 echo "Safe to remove!"
