@@ -5,7 +5,7 @@
 /*
 Based on this source from the linux kernel
 https://github.com/thenaran/linux-rpi/blob/master/drivers/char/hw_random/bcm2708-rng.c
-And this tutorial
+And this
 https://github.com/bztsrc/raspi3-tutorial/blob/master/06_random/rand.c
 Haven't been able to find any actual documentation for this.
 */
@@ -38,8 +38,7 @@ QUESTION: What prevents two rapid reads from getting the same number here?
 */
 uint32_t hrand(void) {
   // Wait for some entropy
-  while (!(get32(RNG_STATUS) >> 24)) {
-    asm volatile("nop");
-  }
+  while (!(get32(RNG_STATUS) >> 24))
+    ;
   return get32(RNG_DATA);
 }

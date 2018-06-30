@@ -8,7 +8,7 @@
 
 /*
 Returns systime in micro seconds. No source for that, just basing off of
-other peoples code comments...
+other peoples' code comments...
 */
 uint64_t get_systime() {
   uint32_t hi = get32(TIMER_HIGH);
