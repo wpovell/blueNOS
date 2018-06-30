@@ -2,6 +2,21 @@
 
 An OS only Blueno would use.
 
+## TODO
+
+- Write more generic GPIO driver.
+- Write bootloader to transfer kernel over serial.
+- Get mailbox working
+  - Onboard LED
+- Graphics
+  - Get framebuffers working
+  - Get fonts working
+  - Start work on tty / line discipline stuff
+- Processes
+- Filesystem
+- Virtual Memory
+
+
 ## Requirements
 ### Software
 - `aarch64-linux-gnu v8.1.0` cross-compiler toolchain
@@ -23,13 +38,11 @@ An OS only Blueno would use.
 `dbg` target will start QEMU with GDB.
 
 ### Scripts
-
 - `sudo install.sh [sd card dev]`: Will install image to SD Card. Defaults to `/dev/mmcblk0p1`
-  - *TODO: Chain load kernel over serial*
 - `uart.sh [usb dev]`: Starts screen connected to UART. Defaults to `/dev/ttyUSB0`
 
 ## Kernel Memory Layout
-
+(not to scale)
 ```
 ---------- MEM_MAX
 heap
@@ -54,9 +67,10 @@ The [BCM2835 Peripheral Manual](https://web.stanford.edu/class/cs140e/docs/BCM28
 has lots of the random addresses used for driver stuff. If you see a reference to `(Section X.X)`
 in comments it's referring to this.
 
-Lots of bits pulled from:
+Bits pulled from:
 - [bztsrc's "Bare Metal Programming" tutorial](https://github.com/bztsrc/raspi3-tutorial)
 - [s-matyukevich's RPi OS](https://github.com/s-matyukevich/raspberry-pi-os)
 - [jsandler18's Kernel for 32bit ARM](https://github.com/jsandler18/raspi-kernel)
+- [Stanford's CS140e](https://web.stanford.edu/class/cs140e)
 
 [usb_to_ttl]: https://www.amazon.com/JBtek-WINDOWS-Supported-Raspberry-Programming/dp/B00QT7LQ88/
