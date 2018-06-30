@@ -5,6 +5,7 @@ Code from raspi3-tutorial
 Seems that it's related to forcing the watchdog timer to expire
 See (https://en.wikipedia.org/wiki/Watchdog_timer)
 TODO: Understand what's actually going on here.
+      Why volatile? What's with the "magic"?
 */
 
 #define PM_RSTC ((volatile unsigned int *)(PBASE + 0x0010001c))
@@ -13,7 +14,7 @@ TODO: Understand what's actually going on here.
 #define PM_WDOG_MAGIC 0x5a000000
 #define PM_RSTC_FULLRST 0x00000020
 
-void reboot() {
+void reboot(void) {
   unsigned int r;
 
   r = *PM_RSTS;
