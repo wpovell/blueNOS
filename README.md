@@ -6,7 +6,7 @@ An OS only Blueno would use.
 ### Software
 - `aarch64-linux-gnu v8.1.0` cross-compiler toolchain
 - `qemu-system-aarch64 v2.12.0` to emulate the RPi
-- `screen` or `minicom` to interact with RPi over UART
+- `minicom` to interact with RPi over UART
 
 ### Hardware
 - Raspberry Pi 3 B+
