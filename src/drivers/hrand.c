@@ -1,5 +1,6 @@
 #include "drivers/base.h"
 #include "drivers/hrand.h"
+#include "util/stdlib.h"
 
 /*
 Based on this source from the linux kernel
@@ -10,9 +11,9 @@ Haven't been able to find any actual documentation for this.
 */
 
 #define RNG_BASE (PBASE + 0x00104000)
-#define RNG_CTRL ((uint32_t *)RNG_BASE)
-#define RNG_STATUS ((uint32_t *)(RNG_BASE + 0x4))
-#define RNG_DATA ((uint32_t *)(RNG_BASE + 0x8))
+#define RNG_CTRL (RNG_BASE)
+#define RNG_STATUS (RNG_BASE + 0x4)
+#define RNG_DATA (RNG_BASE + 0x8)
 
 // For enabling rgen
 // The 2nd options is faster but less random
@@ -24,8 +25,8 @@ Haven't been able to find any actual documentation for this.
 
 void hrand_init(void) {
   // NOTE: Other srcs mask interrupts here?
-  *RNG_STATUS = RNG_WARMUP_COUNT;
-  *RNG_CTRL = RNG_RBGEN;
+  put32(RNG_STATUS, RNG_WARMUP_COUNT);
+  put32(RNG_CTRL, RNG_RBGEN);
 }
 
 /*
@@ -37,8 +38,8 @@ QUESTION: What prevents two rapid reads from getting the same number here?
 */
 uint32_t hrand(void) {
   // Wait for some entropy
-  while (!((*RNG_STATUS) >> 24)) {
+  while (!(get32(RNG_STATUS) >> 24)) {
     asm volatile("nop");
   }
-  return *RNG_DATA;
+  return get32(RNG_DATA);
 }
