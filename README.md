@@ -4,7 +4,10 @@ An OS only Blueno would use.
 
 ## TODO
 
-- Write more generic GPIO driver.
+- Memory Management
+  - Paging
+  - kmalloc / kfree
+  - slab allocator
 - Write bootloader to transfer kernel over serial.
 - Get mailbox working
   - Onboard LED
@@ -12,9 +15,18 @@ An OS only Blueno would use.
   - Get framebuffers working
   - Get fonts working
   - Start work on tty / line discipline stuff
+- Interrupt Controller Driver
+  - Timer
 - Processes
 - Filesystem
+  - SD Driver
+  - FAT32
+  - S5FS
 - Virtual Memory
+- USB
+  - Keyboard
+  - Ethernet -> Networking stack
+- Multicore?
 
 
 ## Requirements

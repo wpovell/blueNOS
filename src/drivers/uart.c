@@ -1,98 +1,59 @@
-#include "drivers/peripherals/gpio.h"
-#include "drivers/peripherals/uart.h"
+#include "drivers/base.h"
+#include "drivers/gpio.h"
 #include "util/stdlib.h"
 #include <stdarg.h>
 
-// TODO: Better understand this
+/* All the magic here is described in Section 2 */
+
+#define AUX_BASE (PBASE + 0x00215000)
+
+#define AUX_ENB (AUX_BASE + 0x04)         // Enable
+#define AUX_MU_IO_REG (AUX_BASE + 0x40)   // IO
+#define AUX_MU_IER_REG (AUX_BASE + 0x44)  // Interrupt
+#define AUX_MU_IIR_REG (AUX_BASE + 0x48)  // FIFO
+#define AUX_MU_LCR_REG (AUX_BASE + 0x4C)  // Data Format
+#define AUX_MU_MCR_REG (AUX_BASE + 0x50)  // RTS
+#define AUX_MU_LSR_REG (AUX_BASE + 0x54)  // Data Status
+#define AUX_MU_CNTL_REG (AUX_BASE + 0x60) // Control trans/recv
+#define AUX_MU_BAUD_REG (AUX_BASE + 0x68) // Baudrate
+
 void uart_init(void) {
-  uint32_t selector;
+  gpio_set_func(14, GPF_F5);
+  gpio_set_func(15, GPF_F5);
 
-  selector = get32(GPFSEL1);
-  selector &= ~(7 << 12); // clean gpio14
-  selector |= 2 << 12;    // set alt5 for gpio14
-  selector &= ~(7 << 15); // clean gpio15
-  selector |= 2 << 15;    // set alt5 for gpio15
-  put32(GPFSEL1, selector);
+  gpio_set_pull(14, GPP_NONE);
+  gpio_set_pull(15, GPP_NONE);
 
-  put32(GPPUD, 0);
-  delay(150);
-  put32(GPPUDCLK0, (1 << 14) | (1 << 15));
-  delay(150);
-  put32(GPPUDCLK0, 0);
+  put32(AUX_ENB, 1);           // Enable UART
+  put32(AUX_MU_CNTL_REG, 0);   // Disable flow control + transmit + recieve
+  put32(AUX_MU_IER_REG, 0);    // Disable interrupts
+  put32(AUX_MU_LCR_REG, 0b11); // Set data to be 8bit
+  put32(AUX_MU_MCR_REG, 0);    // Set RTS to be high (not relevant, used for FC)
 
-  // Enable mini uart (this also enables access to it registers)
-  put32(AUX_ENABLES, 1);
-  put32(AUX_MU_CNTL_REG, 0);   // Disable auto flow control and disable receiver
-                               // and transmitter (for now)
-  put32(AUX_MU_IER_REG, 0);    // Disable receive and transmit interrupts
-  put32(AUX_MU_LCR_REG, 3);    // Enable 8 bit mode
-  put32(AUX_MU_MCR_REG, 0);    // Set RTS line to be always high
-  put32(AUX_MU_BAUD_REG, 270); // Set baud rate to 115200
+  /*
+  baudrate = 115200
+  sys_clock_freq = 250MHz
+  baudrate = (sys_clock_freq) / (8 * baudrate_reg + 1)
+  baudrate_reg = (sys_clock_freq) / (8 * baudrate) - 1
+  baudrate_reg = 270
+  */
+  put32(AUX_MU_BAUD_REG, 270);
 
-  put32(AUX_MU_CNTL_REG, 3); // Finally, enable transmitter and receiver
+  put32(AUX_MU_CNTL_REG, 0b11); // Enable transmit + recieve
 }
 
 void uart_putc(char c) {
-  while (1) {
-    if (get32(AUX_MU_LSR_REG) & 0x20)
-      break;
-  }
+  // Idle while still transmitting
+  while (!(get32(AUX_MU_LSR_REG) & (1 << 6)))
+    ;
+
   put32(AUX_MU_IO_REG, c);
 }
 
 char uart_getc(void) {
-  while (1) {
-    if (get32(AUX_MU_LSR_REG) & 0x01)
-      break;
-  }
+  // Idle while waiting for data
+  while (!(get32(AUX_MU_LSR_REG) & 1))
+    ;
+
   return (get32(AUX_MU_IO_REG) & 0xFF);
-}
-
-void uart_puts(char *str) {
-  for (int i = 0; str[i] != '\0'; i++) {
-    uart_putc((char)str[i]);
-  }
-}
-
-void uart_gets(char *buf, int buflen) {
-  int i;
-  char c;
-  // Leave a spot for null char in buffer
-  for (i = 0; (c = uart_getc()) != '\r' && buflen > 1; i++, buflen--) {
-    uart_putc(c);
-    buf[i] = c;
-  }
-
-  uart_putc('\n');
-  if (c == '\n') {
-    buf[i] = '\0';
-  } else
-    buf[buflen - 1] = '\0';
-}
-
-void uart_printf(const char *fmt, ...) {
-  va_list args;
-  va_start(args, fmt);
-
-  for (; *fmt != '\0'; fmt++) {
-    if (*fmt == '%') {
-      switch (*(++fmt)) {
-      case '%':
-        uart_putc('%');
-        break;
-      case 'd':
-        uart_puts(itoa(va_arg(args, int), 10));
-        break;
-      case 'x':
-        uart_puts(itoa(va_arg(args, int), 16));
-        break;
-      case 's':
-        uart_puts(va_arg(args, char *));
-        break;
-      }
-    } else
-      uart_putc(*fmt);
-  }
-
-  va_end(args);
 }

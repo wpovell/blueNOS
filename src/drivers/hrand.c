@@ -1,5 +1,5 @@
+#include "drivers/base.h"
 #include "drivers/hrand.h"
-#include "drivers/peripherals/base.h"
 
 /*
 Based on this source from the linux kernel
@@ -10,9 +10,9 @@ Haven't been able to find any actual documentation for this.
 */
 
 #define RNG_BASE (PBASE + 0x00104000)
-#define RNG_CTRL ((volatile unsigned int *)RNG_BASE)
-#define RNG_STATUS ((volatile unsigned int *)(RNG_BASE + 0x4))
-#define RNG_DATA ((volatile unsigned int *)(RNG_BASE + 0x8))
+#define RNG_CTRL ((uint32_t *)RNG_BASE)
+#define RNG_STATUS ((uint32_t *)(RNG_BASE + 0x4))
+#define RNG_DATA ((uint32_t *)(RNG_BASE + 0x8))
 
 // For enabling rgen
 // The 2nd options is faster but less random

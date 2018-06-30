@@ -1,5 +1,4 @@
 #include "util/stdlib.h"
-#include <stdarg.h>
 
 void memcpy(void *dest, const void *src, int bytes) {
   char *d = dest;

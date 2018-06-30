@@ -7,6 +7,6 @@ char *itoa(int num, int base);
 int atoi(char *num);
 
 // Defined in ASM (utils.S) for simplicity
-extern void delay(unsigned long);
-extern void put32(unsigned long, unsigned int);
-extern unsigned int get32(unsigned long);
+extern void delay(uint64_t);
+extern void put32(uint64_t, uint32_t);
+extern unsigned int get32(uint64_t);

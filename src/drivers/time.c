@@ -1,5 +1,6 @@
-#include "drivers/peripherals/base.h"
+#include "drivers/base.h"
 #include "drivers/time.h"
+
 #define TIMER_LOW ((uint32_t *)(PBASE + 0x3004))
 #define TIMER_HIGH ((uint32_t *)(PBASE + 0x3008))
 
