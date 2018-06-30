@@ -15,3 +15,4 @@ typedef enum { GPP_NONE, GPP_DOWN, GPP_UP } gppull_t;
 
 int gpio_set_func(uint8_t pin, gpfunc_t f);
 int gpio_set_pull(uint8_t pin, gppull_t pull);
+int gpio_set(uint8_t pin, int val);

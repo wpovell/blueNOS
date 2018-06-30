@@ -53,3 +53,25 @@ int gpio_set_pull(uint8_t pin, gppull_t pull) {
 
   return 0;
 }
+
+#define GPSET0 (GPBASE + 0x1C)
+#define GPSET1 (GPBASE + 0x20)
+#define GPCLR0 (GPBASE + 0x28)
+#define GPCLR1 (GPBASE + 0x2C)
+
+int gpio_set(uint8_t pin, int val) {
+  // Invalid pin
+  if (pin > 53) {
+    return 1;
+  }
+
+  uint64_t REG;
+  if (val) {
+    REG = pin / 32 ? GPSET0 : GPSET1;
+  } else {
+    REG = pin / 32 ? GPCLR0 : GPCLR1;
+  }
+  put32(REG, 1 << (pin % 32));
+
+  return 0;
+}
