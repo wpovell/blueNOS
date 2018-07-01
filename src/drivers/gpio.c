@@ -8,6 +8,9 @@
 
 #define FSEL_REG(x) (GPBASE + (x)*0x4)
 
+/*
+  Set GPIO behavior, either input, output, or an alterative function.
+*/
 int gpio_set_func(uint8_t pin, gpfunc_t f) {
   // Invalid pin
   if (pin > 53) {

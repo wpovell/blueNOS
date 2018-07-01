@@ -8,8 +8,7 @@
 #define TIMER_HIGH (PBASE + 0x3008)
 
 /*
-Returns systime in micro seconds. No source for that, just basing off of
-other peoples' code comments...
+  Returns systime in micro seconds.
 */
 uint64_t get_systime() {
   uint32_t hi = get32(TIMER_HIGH);
@@ -24,8 +23,7 @@ uint64_t get_systime() {
 }
 
 /*
-Returns systime in micro seconds. No source for that, just basing off of
-other peoples code comments :(
+  Spins for `time` microseconds
 */
 void wait_usec(uint64_t time) {
   uint32_t curtime = get_systime();

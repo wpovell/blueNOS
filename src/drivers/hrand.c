@@ -30,11 +30,11 @@ void hrand_init(void) {
 }
 
 /*
-Returns a large random number.
-Unclear what RAND_MAX is.
-NOTE: There is no checking that hrand is actually enabled.
-QUESTION: What prevents two rapid reads from getting the same number here?
-          Is the underlying peripheral aware of the read?
+  Returns a large random number.
+  Unclear what RAND_MAX is.
+  NOTE: There is no checking that hrand is actually enabled.
+  QUESTION: What prevents two rapid reads from getting the same number here?
+            Is the underlying peripheral aware of the read?
 */
 uint32_t hrand(void) {
   // Wait for some entropy
