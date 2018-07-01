@@ -1,6 +1,8 @@
 # BluNOS
 
-An OS only Blueno would use.
+My work on an ARMv8 OS for the Raspberry Pi 3.
+
+*(An OS only Blueno would use)*
 
 ## TODO
 
@@ -26,6 +28,7 @@ An OS only Blueno would use.
 - USB
   - Keyboard
   - Ethernet -> Networking stack
+- Audio?
 - Multicore?
 
 
