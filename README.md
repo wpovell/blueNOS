@@ -4,7 +4,6 @@ An OS only Blueno would use.
 
 ## TODO
 
-- ATAGs
 - Memory Management
   - Paging
   - kmalloc / kfree
