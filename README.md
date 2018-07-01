@@ -1,4 +1,4 @@
-# BluNOS
+# BlueNOS
 
 My work on an ARMv8 OS for the Raspberry Pi 3.
 
@@ -12,8 +12,9 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
   - slab allocator
 - Write bootloader to transfer kernel over serial.
 - Graphics
-  - Get framebuffers working
+  - Improve framebuf mailbox interface (structs)
   - Get fonts working
+  - Make faster
   - Start work on tty / line discipline stuff
 - Interrupt Controller Driver
   - Timer
@@ -30,7 +31,6 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 - Multicore?
 - Misc
   - Onboard LED
-
 
 ## Requirements
 ### Software

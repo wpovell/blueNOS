@@ -4,8 +4,12 @@ LD = $(TOOLCHAIN)-ld
 OBJCOPY = $(TOOLCHAIN)-objcopy
 GDB = $(TOOLCHAIN)-gdb
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -nostdlib -nostartfiles -ffreestanding -Iinclude
+
+DBG_CFLAGS = $(CFLAGS) -O0 -g
+OPT_CFLAGS = $(CFLAGS) -O3
+
 # Removed -mgeneral-regs-only to allow for floating point, may need to add back
 # in future if context switcing proves difficult
 
@@ -32,7 +36,7 @@ clean :
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(DBG_CFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.S
 	mkdir -p $(@D)
@@ -49,3 +53,5 @@ dbg: $(IMG_FILE)
 	$(QEMU) $(QEMU_FLAGS) -S -s &
 	$(GDB) $(ELF_FILE)
 	killall $(QEMU)
+
+# TODO: Make install / install_dbg targets

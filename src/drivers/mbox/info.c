@@ -3,11 +3,6 @@
 #include "util/debug.h"
 #include "util/stdio.h"
 
-#define REQ_CODE 0x0
-#define RES_CODE 0x80000000
-#define ERR_CODE 0x80000001
-
-#define END_TAG 0x0
 #define FIRMWARE_TAG 0x00000001
 #define BOARD_MODEL_TAG 0x00010001
 #define BOARD_REV_TAG 0x00010002
@@ -22,28 +17,30 @@
 #define TEMP_TAG 0x00030006
 #define MAX_TEMP_TAG 0x0003000a
 
-#define PROP_CHANNEL 8
-
 uint32_t *set_msg(uint32_t tag, uint8_t bufsize) {
   uint8_t size = 6 + bufsize;
   if (size % 4 != 0) {
     size = 4 * (1 + (size / 4));
   }
-  mbox[0] = size;
+  mbox[0] = size * 4;
   mbox[1] = REQ_CODE;
   mbox[2] = tag;
-  mbox[3] = bufsize;
+  mbox[3] = bufsize * 4;
   mbox[4] = REQ_CODE;
+
   // Buffer
   for (int i = 0; i < bufsize; i++) {
     mbox[5 + i] = 0x0;
   }
+
   mbox[5 + bufsize] = END_TAG;
+
   // Padding
   for (int i = 6 + bufsize; i < size; i++) {
-    mbox[i] = 0x0;
+    mbox[i] = PADDING;
   }
-  return &mbox[5];
+
+  return (uint32_t *)&mbox[5];
 }
 
 uint32_t mbox_get_firmware(void) {

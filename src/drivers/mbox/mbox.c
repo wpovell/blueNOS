@@ -8,7 +8,9 @@
 */
 
 // Shared mailbox buffer
-uint32_t __attribute__((aligned(16))) mbox[36];
+// NOTE: Volatile is necessary at -O2 and higher. Presumably since this array
+//       is shared between CPU and GPU.
+volatile uint32_t __attribute__((aligned(16))) mbox[36];
 
 #define MBOX_BASE (PBASE + 0x0000B880)
 
@@ -19,7 +21,7 @@ uint32_t __attribute__((aligned(16))) mbox[36];
 #define READ_EMPTY (1 << 30)
 #define WRITE_FULL (1 << 31)
 
-void mbox_call(uint32_t channel) {
+int mbox_call(uint8_t channel) {
   while (get32(MBOX_STATUS) & WRITE_FULL)
     ;
 
@@ -33,4 +35,6 @@ void mbox_call(uint32_t channel) {
       ;
     res = get32(MBOX_READ);
   } while ((res & 0xF) != channel); // Only use if it's from our channel
+
+  return mbox[1] != RES_CODE;
 }
