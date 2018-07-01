@@ -50,8 +50,12 @@ void printf(const char *fmt, ...) {
         puts(va_arg(args, char *));
         break;
       }
-    } else
+    } else if (*fmt == '\n') {
       putc(*fmt);
+      putc('\r');
+    } else {
+      putc(*fmt);
+    }
   }
 
   va_end(args);

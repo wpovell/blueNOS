@@ -1,7 +1,9 @@
 #pragma once
+#include <stddef.h>
 #include <stdint.h>
 
 char *itoa(int num, int base);
+void *memcpy(void *dest, const void *src, size_t len);
 
 // Defined in ASM (utils.S) for simplicity
 extern void delay(uint64_t);

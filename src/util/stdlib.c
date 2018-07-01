@@ -1,5 +1,13 @@
 #include "util/stdlib.h"
 
+void *memcpy(void *dest, const void *src, size_t len) {
+  char *d = dest;
+  const char *s = src;
+  while (len--)
+    *d++ = *s++;
+  return dest;
+}
+
 char *itoa(int num, int base) {
   static char intbuf[32];
   uint32_t j = 0, isneg = 0, i;
