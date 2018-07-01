@@ -11,8 +11,6 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
   - kmalloc / kfree
   - slab allocator
 - Write bootloader to transfer kernel over serial.
-- Get mailbox working
-  - Onboard LED
 - Graphics
   - Get framebuffers working
   - Get fonts working
@@ -30,6 +28,8 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
   - Ethernet -> Networking stack
 - Audio?
 - Multicore?
+- Misc
+  - Onboard LED
 
 
 ## Requirements

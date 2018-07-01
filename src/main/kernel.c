@@ -1,8 +1,9 @@
+#include "drivers/mbox/info.h"
 #include "drivers/uart.h"
-#include "main/atags.h"
 #include "util/stdio.h"
 #include <stdint.h>
 void kernel_main(void) {
   uart_init();
-  puts("Welcome to BluenOS!\n\r");
+  printf("Welcome to BluenOS!\n");
+  mbox_print_info();
 }

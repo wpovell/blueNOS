@@ -5,7 +5,9 @@ OBJCOPY = $(TOOLCHAIN)-objcopy
 GDB = $(TOOLCHAIN)-gdb
 
 CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS += -nostdlib -nostartfiles -ffreestanding -Iinclude -mgeneral-regs-only
+CFLAGS += -nostdlib -nostartfiles -ffreestanding -Iinclude
+# Removed -mgeneral-regs-only to allow for floating point, may need to add back
+# in future if context switcing proves difficult
 
 BUILD_DIR = build
 SRC_DIR = src
