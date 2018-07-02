@@ -21,11 +21,11 @@ KERN_IMG = build/kernel/kernel8.img
 KERN_ELF = build/kernel/kernel8.elf
 
 QEMU = qemu-system-aarch64
-QEMU_FLAGS = -M raspi3 -kernel $(KERN_IMG) -serial null -serial stdio
+QEMU_FLAGS = -M raspi3 -kernel $(KERN_IMG)
 GDB = $(CROSS)-gdb
 
 run: kernel
-	$(QEMU) $(QEMU_FLAGS)
+	$(QEMU) $(QEMU_FLAGS) -serial null -serial stdio
 
 dbg: kernel
 	$(QEMU) $(QEMU_FLAGS) -S -s &

@@ -2,3 +2,4 @@ tags
 build
 *.img
 notes*
+bin/server
