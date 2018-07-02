@@ -16,7 +16,7 @@ start:
 	sub	x5, x5, x4
 	bl 	memzero
 
-	mov	sp, #0x80000    // Set stack to grown downwards from kernel
+	mov	sp, #0x80000     // Set stack to grown downwards from kernel
 	bl	kernel_main
 	b 	hang
 

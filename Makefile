@@ -1,62 +1,36 @@
-TOOLCHAIN = aarch64-linux-gnu
-CC = $(TOOLCHAIN)-gcc
-LD = $(TOOLCHAIN)-ld
-OBJCOPY = $(TOOLCHAIN)-objcopy
-GDB = $(TOOLCHAIN)-gdb
+include make/common.mk
 
-CFLAGS = -Wall -Wextra -Werror
-CFLAGS += -nostdlib -nostartfiles -ffreestanding -Iinclude
+.PHONY: all server kernel boot clean
+all: server kernel boot
 
-DBG_CFLAGS = $(CFLAGS) -O0 -g
-OPT_CFLAGS = $(CFLAGS) -O3
+server:
+	@ cd server && $(MAKE) all
 
-# Removed -mgeneral-regs-only to allow for floating point, may need to add back
-# in future if context switcing proves difficult
+kernel:
+	@ cd kernel && $(MAKE) all
 
-BUILD_DIR = build
-SRC_DIR = src
+boot:
+	@ cd boot && $(MAKE) all
 
-IMG_NAME  = kernel8
-IMG_FILE  = $(BUILD_DIR)/$(IMG_NAME).img
-ELF_FILE  = $(BUILD_DIR)/$(IMG_NAME).elf
-LD_SCRIPT = $(SRC_DIR)/linker.ld
+clean:
+	@ cd server && $(MAKE) clean
+	@ cd kernel && $(MAKE) clean
+	@ cd boot && $(MAKE) clean
+
+KERN_IMG = build/kernel/kernel8.img
+KERN_ELF = build/kernel/kernel8.elf
 
 QEMU = qemu-system-aarch64
-QEMU_FLAGS = -M raspi3 -kernel $(IMG_FILE) -serial null -serial stdio
+QEMU_FLAGS = -M raspi3 -kernel $(KERN_IMG) -serial null -serial stdio
+GDB = $(CROSS)-gdb
 
-C_FILES   = $(shell find src/ -type f -name "*.c")
-ASM_FILES = $(shell find src/ -type f -name "*.S")
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_FILES))
-OBJ_FILES += $(patsubst $(SRC_DIR)/%.S, $(BUILD_DIR)/%.o, $(ASM_FILES))
-
-SERVER = bin/server
-
-all : $(IMG_FILE) $(SERVER)
-
-clean :
-	rm -rf $(BUILD_DIR) *.img
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(@D)
-	$(CC) $(DBG_CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.S
-	mkdir -p $(@D)
-	$(CC) -c $< -o $@
-
-$(IMG_FILE): $(LD_SCRIPT) $(OBJ_FILES)
-	$(LD) -T $(LD_SCRIPT) -o $(ELF_FILE)  $(OBJ_FILES)
-	$(OBJCOPY) $(ELF_FILE) -O binary $(IMG_FILE)
-
-run: $(IMG_FILE)
+run: kernel
 	$(QEMU) $(QEMU_FLAGS)
 
-$(SERVER): include/xmodem/xmodem.h server/server.h server/server.c
-	gcc -o $@ server/server.c -Iserver -Iinclude
-
-dbg: $(IMG_FILE)
+dbg: kernel
 	$(QEMU) $(QEMU_FLAGS) -S -s &
-	$(GDB) $(ELF_FILE)
+	$(GDB) $(KERN_ELF)
 	killall $(QEMU)
 
-# TODO: Make install / install_dbg targets
+ikern: kernel
+	sudo ./bin/install.sh $(KERN_IMG)
