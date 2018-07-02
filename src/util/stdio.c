@@ -4,8 +4,8 @@
 
 // Set stdio functions to use uart as output
 #include "drivers/uart.h"
-#define putc uart_putc
-#define getc uart_getc
+void putc(char c) { uart_putc(c); }
+char getc(void) { return uart_getc(); }
 
 void puts(char *str) {
   for (int i = 0; str[i] != '\0'; i++) {

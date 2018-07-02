@@ -29,7 +29,9 @@ ASM_FILES = $(shell find src/ -type f -name "*.S")
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_FILES))
 OBJ_FILES += $(patsubst $(SRC_DIR)/%.S, $(BUILD_DIR)/%.o, $(ASM_FILES))
 
-all : $(IMG_FILE)
+SERVER = bin/server
+
+all : $(IMG_FILE) $(SERVER)
 
 clean :
 	rm -rf $(BUILD_DIR) *.img
@@ -48,6 +50,9 @@ $(IMG_FILE): $(LD_SCRIPT) $(OBJ_FILES)
 
 run: $(IMG_FILE)
 	$(QEMU) $(QEMU_FLAGS)
+
+$(SERVER): include/xmodem/xmodem.h server/server.h server/server.c
+	gcc -o $@ server/server.c -Iserver -Iinclude
 
 dbg: $(IMG_FILE)
 	$(QEMU) $(QEMU_FLAGS) -S -s &
