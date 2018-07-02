@@ -12,7 +12,6 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
   - slab allocator
 - Graphics
   - Improve framebuf mailbox interface (structs)
-  - Get fonts working
   - Make faster
   - Start work on tty / line discipline stuff
 - Interrupt Controller Driver
