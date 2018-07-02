@@ -5,14 +5,13 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 *(An OS only Blueno would use)*
 
 ## TODO
-
 - Memory Management
-  - Paging
+  - Paging (buddy system?)
   - kmalloc / kfree
   - slab allocator
 - Graphics
   - Improve framebuf mailbox interface (structs)
-  - Make faster
+  - [Make faster](https://www.raspberrypi.org/forums/viewtopic.php?t=213964)
   - Start work on tty / line discipline stuff
 - Interrupt Controller Driver
   - Timer
@@ -29,7 +28,7 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 - Multicore?
 - Misc
   - Onboard LED
-  - Cleanup bootloader Makefile
+  - Power off
 
 ## Requirements
 ### Software
@@ -44,21 +43,30 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 
 ## Build & Running
 ### Make
-
-`make` should just work.
-
-`run` will start QEMU.
-
-`dbg` target will start QEMU with GDB.
+- `make all` and `make clean` work as expected.
+- `make run` will start QEMU.
+- `make dbg` will start QEMU with GDB.
+- `make iboot` and `make ikern` install the bootloader or full kernel respectively.
 
 ### Scripts
-- `sudo install.sh [sd card dev]`: Will install image to SD Card. Defaults to `/dev/mmcblk0p1`
+- `sudo install.sh <image> [sd dev]`: Will install image to SD Card. Defaults to `/dev/mmcblk0p1`
 - `uart.sh [usb dev]`: Starts screen connected to UART. Defaults to `/dev/ttyUSB0`
+- `server <device> <file>`: Script used to transfer kernel to bootloader over UART.
 
 ## Kernel Memory Layout
 (not to scale)
+
+TODO: Add values from info print
 ```
 ---------- MEM_MAX
+peripheral
+MMIO
+---------- 0x3F000000
+more heap
+----------
+bootloader
+---------- 0x4000000
+kern
 heap
 ----------
 bss
@@ -71,7 +79,9 @@ text
 ----------
 text.boot
 ---------- 0x80000
+kern  V
 stack
+
 ---------- 0
 ```
 

@@ -15,6 +15,8 @@ ASM_FILES = $(KERN_DIR)/main/boot.S $(KERN_DIR)/util/utils.S
 OBJ_FILES = $(patsubst $(KERN_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_FILES))
 OBJ_FILES += $(patsubst $(KERN_DIR)/%.S, $(BUILD_DIR)/%.o, $(ASM_FILES))
 
+CFLAGS += -D__BOOTLOADER__
+
 .PHONY: clean all
 clean:
 	rm -rf $(BUILD_DIR)
@@ -22,6 +24,7 @@ clean:
 all: $(IMG_FILE)
 
 $(BUILD_DIR)/main.o: main.c
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: $(KERN_DIR)/%.c

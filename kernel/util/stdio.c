@@ -1,21 +1,27 @@
+#include "drivers/uart.h"
 #include "graphics/colors.h"
 #include "graphics/font.h"
 #include "util/stdio.h"
 #include "util/stdlib.h"
 #include <stdarg.h>
 
-// Set stdio functions to use uart as output
-#include "drivers/uart.h"
+uint8_t print_screen = 1;
 uint32_t font_x = 0;
 uint32_t font_y = 0;
+
 void putc(char c) {
-  draw_char(c, font_x, font_y, WHITE);
-  if (c == '\n') {
-    font_y++;
-    font_x = 0;
-  } else {
-    font_x++;
+// Don't print to screen if in bootloader
+#ifndef __BOOTLOADER__
+  if (print_screen) {
+    draw_char(c, font_x, font_y, WHITE);
+    if (c == '\n') {
+      font_y++;
+      font_x = 0;
+    } else {
+      font_x++;
+    }
   }
+#endif
   uart_putc(c);
 }
 char getc(void) { return uart_getc(); }

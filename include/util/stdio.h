@@ -1,4 +1,7 @@
 #pragma once
+#include <stdint.h>
+
+extern uint8_t print_screen;
 
 void putc(char c);
 char getc(void);
