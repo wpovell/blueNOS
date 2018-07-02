@@ -35,7 +35,7 @@ mount $DEVICE $DIR
 
 cp $1 $DIR
 cp disk/* $DIR
-cp $(basename $(dirname $1)) $DIR
+cp $(basename $(dirname $1))/config.txt $DIR
 
 echo "Current boot partition contents:"
 ls $DIR

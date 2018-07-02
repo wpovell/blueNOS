@@ -10,7 +10,6 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
   - Paging
   - kmalloc / kfree
   - slab allocator
-- Write bootloader to transfer kernel over serial.
 - Graphics
   - Improve framebuf mailbox interface (structs)
   - Get fonts working
@@ -31,6 +30,7 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 - Multicore?
 - Misc
   - Onboard LED
+  - Cleanup bootloader Makefile
 
 ## Requirements
 ### Software

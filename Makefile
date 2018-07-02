@@ -34,3 +34,6 @@ dbg: kernel
 
 ikern: kernel
 	sudo ./bin/install.sh $(KERN_IMG)
+
+iboot: boot
+	sudo ./bin/install.sh build/boot/kernel8.img

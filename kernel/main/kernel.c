@@ -10,7 +10,7 @@
 uint32_t width = 1024;
 uint32_t height = 768;
 void kernel_main(void) {
-  uart_init();
+  // uart_init();
   // initiate_transfer();
   // framebuf_init(width, height);
   // for (int i = 0; i < 10000; i++) {
