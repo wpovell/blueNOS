@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 function help {
   echo -e "\ninstall <img> [device]"
