@@ -62,14 +62,14 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 ┃     ┃ Peripheral MMIO
 ┃     ┗━━━━━━━━━━━━━━━━━ 0x3F000000
 ┃
-┃━━━━━━━━━━━━━━━━━━━━━━━ 0x3b400000 Max CPU Mem
-┃
-┃     ┏━━━━━━━━━━━━━━━━━
-┃     ┃ Bootloader
-┃     ┗━━━━━━━━━━━━━━━━━ 0x04000000
-┃
-┃     ▲
-┃     ┃ Kernel Heap
+┣━━━━━┳━━━━━━━━━━━━━━━━━ 0x3b400000 Max CPU Mem
+┃     ┃
+┃     ┃  ┏━━━━━━━━━━━━━━
+┃     ┃  ┃ Bootloader
+┃     ┃  ┗━━━━━━━━━━━━━━ 0x04000000
+┃     ┃
+┃     ┃
+┃     ┃ Kernel Heap ▲
 ┃     ┣━━━━━━━━━━━━━━━━━
 ┃     ┃ bss
 ┃     ┣━━━━━━━━━━━━━━━━━
@@ -81,10 +81,10 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 ┃     ┣━━━━━━━━━━━━━━━━━
 ┃     ┃ text.boot
 ┃     ┣━━━━━━━━━━━━━━━━━ 0x00080000 Kernel Start
-┃     ┃ Kernel Stack  
-┃     ▼
-┃
-┗━━━━━━━━━━━━━━━━━━━━━━━ 0x00000000
+┃     ┃ Kernel Stack ▼
+┃     ┃
+┃     ┃
+┗━━━━━┻━━━━━━━━━━━━━━━━━ 0x00000000
 ```
 
 ## Thanks / Resources
