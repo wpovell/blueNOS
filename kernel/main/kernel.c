@@ -1,5 +1,7 @@
+#include "drivers/gpio.h"
 #include "drivers/mbox/framebuf.h"
 #include "drivers/mbox/info.h"
+#include "drivers/time.h"
 #include "drivers/uart.h"
 #include "graphics/colors.h"
 #include "graphics/font.h"
@@ -16,6 +18,13 @@ void kernel_main(void) {
   printf("addr: %x, size: %d\n", buffer, buffer_size);
   printf("Welcome to BluenOS!\n");
   mbox_print_info();
+  gpio_set_func(35, GPF_OUTPUT);
+  while (1) {
+    gpio_set(35, 1);
+    wait_sec(1);
+    gpio_set(35, 0);
+    wait_sec(1);
+  }
   while (1) {
     printf("%d\n", getc());
   }
