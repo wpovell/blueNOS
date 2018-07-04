@@ -55,34 +55,36 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 
 ## Kernel Memory Layout
 (not to scale)
-
-TODO: Add values from info print
 ```
----------- MEM_MAX
-peripheral
-MMIO
----------- 0x3F000000
-more heap
-----------
-bootloader
----------- 0x4000000
-kern
-heap
-----------
-bss
-----------
-data
-----------
-rodata
-----------
-text
-----------
-text.boot
----------- 0x80000
-kern  V
-stack
-
----------- 0
+┏━━━━━━━━━━━━━━━━━━━━━━━ 0x40000000 Max VC Mem
+┃
+┃     ┏━━━━━━━━━━━━━━━━━
+┃     ┃ Peripheral MMIO
+┃     ┗━━━━━━━━━━━━━━━━━ 0x3F000000
+┃
+┃━━━━━━━━━━━━━━━━━━━━━━━ 0x3b400000 Max CPU Mem
+┃
+┃     ┏━━━━━━━━━━━━━━━━━
+┃     ┃ Bootloader
+┃     ┗━━━━━━━━━━━━━━━━━ 0x04000000
+┃
+┃     ▲
+┃     ┃ Kernel Heap
+┃     ┣━━━━━━━━━━━━━━━━━
+┃     ┃ bss
+┃     ┣━━━━━━━━━━━━━━━━━
+┃     ┃ data
+┃     ┣━━━━━━━━━━━━━━━━━
+┃     ┃ rodata
+┃     ┣━━━━━━━━━━━━━━━━━
+┃     ┃ text
+┃     ┣━━━━━━━━━━━━━━━━━
+┃     ┃ text.boot
+┃     ┣━━━━━━━━━━━━━━━━━ 0x00080000 Kernel Start
+┃     ┃ Kernel Stack  
+┃     ▼
+┃
+┗━━━━━━━━━━━━━━━━━━━━━━━ 0x00000000
 ```
 
 ## Thanks / Resources
