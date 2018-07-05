@@ -98,7 +98,7 @@ in comments it's referring to this.
 Bits pulled from:
 - [bztsrc's "Bare Metal Programming" tutorial](https://github.com/bztsrc/raspi3-tutorial)
 - [s-matyukevich's RPi OS](https://github.com/s-matyukevich/raspberry-pi-os)
-- [jsandler18's Kernel for 32bit ARM](https://github.com/jsandler18/raspi-kernel)
+- [jsandler18's Kernel for 32bit ARM](http://jsandler18.github.io/)
 - [Stanford's CS140e](https://web.stanford.edu/class/cs140e)
 
 [usb_to_ttl]: https://www.amazon.com/JBtek-WINDOWS-Supported-Raspberry-Programming/dp/B00QT7LQ88/
