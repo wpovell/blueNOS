@@ -3,6 +3,7 @@
 #include "util/stdlib.h"
 
 /* All the magic here is described in Section 6 */
+// QUESTION: What's the point of GPIO pins above 27?
 
 #define GPBASE (PBASE + 0x00200000)
 
@@ -13,7 +14,7 @@
 */
 int gpio_set_func(uint8_t pin, gpfunc_t f) {
   // Invalid pin
-  if (pin > 53) {
+  if (pin < 2 || pin > 27) {
     return 1;
   }
 
@@ -34,47 +35,40 @@ int gpio_set_func(uint8_t pin, gpfunc_t f) {
 
 #define GPPUD (GPBASE + 0x94)
 #define GPPUDCLK0 (GPBASE + 0x98)
-#define GPPUDCLK1 (GPBASE + 0x9C)
+#define GPPUDCLK1 (GPBASE + 0x9C) // Not used
 
 int gpio_set_pull(uint8_t pin, gppull_t pull) {
   // Invalid pin
-  if (pin > 53) {
+  if (pin < 2 || pin > 27) {
     return 1;
   }
-
-  // Get relevant clock register
-  uint64_t CLOCK = pin < 32 ? GPPUDCLK0 : GPPUDCLK1;
 
   // Set pull
   put32(GPPUD, pull);
   delay(150);
   // Set clock
-  put32(CLOCK, 0b1 << (pin % 32));
+  put32(GPPUDCLK0, 1 << pin);
   delay(150);
   // Clear clock
-  put32(CLOCK, 0);
+  put32(GPPUD, 0);
+  put32(GPPUDCLK0, 0);
 
   return 0;
 }
 
 #define GPSET0 (GPBASE + 0x1C)
-#define GPSET1 (GPBASE + 0x20)
+#define GPSET1 (GPBASE + 0x20) // Not used
 #define GPCLR0 (GPBASE + 0x28)
-#define GPCLR1 (GPBASE + 0x2C)
+#define GPCLR1 (GPBASE + 0x2C) // Not used
 
 int gpio_set(uint8_t pin, int val) {
   // Invalid pin
-  if (pin > 53) {
+  if (pin < 2 || pin > 27) {
     return 1;
   }
 
-  uint64_t REG;
-  if (val) {
-    REG = pin / 32 ? GPSET0 : GPSET1;
-  } else {
-    REG = pin / 32 ? GPCLR0 : GPCLR1;
-  }
-  put32(REG, 1 << (pin % 32));
+  uint64_t REG = val ? GPSET0 : GPCLR0;
+  put32(REG, 1 << pin);
 
   return 0;
 }
