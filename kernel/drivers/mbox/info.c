@@ -16,6 +16,10 @@
 
 #define TEMP_TAG 0x00030006
 #define MAX_TEMP_TAG 0x0003000a
+#define C_TO_F(temp) (((temp)*1.8) + 32)
+
+#define MAX_CLOCK_TAG 0x00030004
+#define CUR_CLOCK_TAG 0x00030002
 
 uint32_t *set_msg(uint32_t tag, uint8_t bufsize) {
   uint8_t size = 6 + bufsize;
@@ -41,6 +45,21 @@ uint32_t *set_msg(uint32_t tag, uint8_t bufsize) {
   }
 
   return (uint32_t *)&mbox[5];
+}
+
+#define ARM_CLOCK_ID 0x000000003
+uint32_t mbox_get_max_cpu_clock(void) {
+  uint32_t *buf = set_msg(MAX_CLOCK_TAG, 8);
+  buf[0] = ARM_CLOCK_ID;
+  mbox_call(PROP_CHANNEL);
+  return buf[1] / 1000000;
+}
+
+uint32_t mbox_get_cpu_clock(void) {
+  uint32_t *buf = set_msg(CUR_CLOCK_TAG, 8);
+  buf[0] = ARM_CLOCK_ID;
+  mbox_call(PROP_CHANNEL);
+  return buf[1] / 1000000;
 }
 
 uint32_t mbox_get_firmware(void) {
@@ -85,18 +104,16 @@ mbox_mem_t mbox_get_vc_mem(void) {
 uint32_t mbox_get_temp(void) {
   uint32_t *buf = set_msg(TEMP_TAG, 8);
   mbox_call(PROP_CHANNEL);
-  return buf[1];
+  return (uint32_t)C_TO_F(buf[1] / 1000);
 }
 
 uint32_t mbox_get_max_temp(void) {
   uint32_t *buf = set_msg(MAX_TEMP_TAG, 8);
   mbox_call(PROP_CHANNEL);
-  return buf[1];
+  return (uint32_t)C_TO_F(buf[1] / 1000);
 }
 
 // TODO: Mac addr & cmdline
-
-#define C_TO_F(temp) (((temp)*1.8) + 32)
 
 void mbox_print_info(void) {
   mbox_mem_t mem = mbox_get_mem();
@@ -112,9 +129,12 @@ void mbox_print_info(void) {
          "\tBase: %x\n"
          "\tSize: %x\n"
          "Temp: %d\n"
-         "Max Temp: %d\n",
+         "Max Temp: %d\n"
+         "CPU:\n"
+         "\tCurrent: %dMHz\n"
+         "\tMax: %dMHz\n",
          mbox_get_firmware(), mbox_get_model(), mbox_get_rev(),
          mbox_get_serial(), mem.base, mem.size, vc_mem.base, vc_mem.size,
-         (uint32_t)C_TO_F(mbox_get_temp() / 1000),
-         (uint32_t)C_TO_F(mbox_get_max_temp() / 1000));
+         mbox_get_temp(), mbox_get_max_temp(), mbox_get_cpu_clock(),
+         mbox_get_max_cpu_clock());
 }

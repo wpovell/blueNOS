@@ -6,6 +6,8 @@ typedef struct mbox_mem {
   uint32_t size;
 } mbox_mem_t;
 
+uint32_t mbox_get_max_cpu_clock(void);
+uint32_t mbox_get_cpu_clock(void);
 uint32_t mbox_get_firmware(void);
 uint32_t mbox_get_model(void);
 uint32_t mbox_get_rev(void);
