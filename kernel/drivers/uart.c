@@ -68,5 +68,10 @@ char uart_getc(void) {
   while (!(get32(AUX_MU_LSR_REG) & 1))
     ;
 
-  return (get32(AUX_MU_IO_REG) & 0xFF);
+  char c = get32(AUX_MU_IO_REG) & 0xFF;
+  if (c == 13) {
+    return 10;
+  } else {
+    return c;
+  }
 }
