@@ -69,9 +69,10 @@ char uart_getc(void) {
     ;
 
   char c = get32(AUX_MU_IO_REG) & 0xFF;
+#ifndef __BOOTLOADER__
   if (c == 13) {
     return 10;
-  } else {
-    return c;
   }
+#endif
+  return c;
 }

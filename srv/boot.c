@@ -50,7 +50,7 @@ int transfer(void) {
     if (select(dev + 1, &read_fds, &write_fds, &except_fds, &timeout) == 1) {
       res = gc(dev);
       if (res != NAK) {
-        printf("Bad response (%x)\n", res);
+        printf("Bad response (%d)\n", res);
       } else {
         break;
       }
@@ -80,6 +80,7 @@ int transfer(void) {
     if (rd < PACKET_SIZE) {
       memset(buf + rd, 0, PACKET_SIZE - rd);
     }
+    int failures = 0;
     do {
       // -> Packet #
       pc(dev, pac_num());
@@ -93,13 +94,19 @@ int transfer(void) {
       res = gc(dev);
       if (res == NAK) { // Retry
         printf("%d: Failed, retrying\n", packet_num);
+        failures++;
+        if (failures > 10) {
+          printf("%d: Too many reties, aborting.\n", packet_num);
+          return 1;
+        }
       } else if (res == ACK) { // Next
         printf("%d: Recieved, proceeding\n", packet_num);
+        failures = 0;
+        packet_num++;
       } else { // Error
         printf("Bad response (%d), aborting.\n", res);
         return 1;
       }
-      packet_num++;
     } while (res != ACK);
   } while (rd == PACKET_SIZE);
   printf("Sending EOT\n");
