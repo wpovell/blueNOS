@@ -10,6 +10,7 @@ uint32_t font_x = 0;
 uint32_t font_y = 0;
 
 void putc(char c) {
+  // TODO: Handle delete / special chars
 // Don't print to screen if in bootloader
 #ifndef __BOOTLOADER__
   if (print_screen) {

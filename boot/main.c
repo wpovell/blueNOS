@@ -1,5 +1,4 @@
 #include "drivers/uart.h"
-#include "util/stdio.h"
 #include "xmodem/client.h"
 #include <stdint.h>
 
