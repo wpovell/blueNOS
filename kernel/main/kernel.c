@@ -1,31 +1,43 @@
-#include "drivers/gpio.h"
 #include "drivers/mbox/framebuf.h"
 #include "drivers/mbox/info.h"
-#include "drivers/time.h"
-#include "drivers/uart.h"
-#include "graphics/colors.h"
-#include "graphics/font.h"
-#include "graphics/util.h"
-#include "util/debug.h"
+#include "drivers/power.h"
 #include "util/stdio.h"
-#include "xmodem/client.h"
 #include <stdint.h>
+
+int strlen(char *str) {
+  int i = 0;
+  for (; str[i]; i++)
+    ;
+  return i;
+}
+
+int streq(char *cmd, char *line) {
+  for (int i = 0; i < strlen(cmd); i++) {
+    if (cmd[i] != line[i]) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
+void kshell() {
+  char buf[250];
+  while (1) {
+    printf(">> ");
+    gets(buf, 250);
+    printf("::%s\n", buf);
+    if (streq("reboot", buf)) {
+      reboot();
+    } else if (streq("info", buf)) {
+      mbox_print_info();
+    }
+  }
+}
 
 uint32_t width = 1024;
 uint32_t height = 768;
 void kernel_main(void) {
   framebuf_init(width, height);
-  printf("addr: %x, size: %d\n", buffer, buffer_size);
   printf("Welcome to BluenOS!\n");
-  mbox_print_info();
-  gpio_set_func(35, GPF_OUTPUT);
-  while (1) {
-    gpio_set(35, 1);
-    wait_sec(1);
-    gpio_set(35, 0);
-    wait_sec(1);
-  }
-  while (1) {
-    printf("%d\n", getc());
-  }
+  kshell();
 }

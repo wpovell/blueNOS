@@ -1,0 +1,11 @@
+#!/bin/bash
+pgrep _srv >/dev/null
+if [[ $? -eq 0 ]]; then
+  echo "Kill other server first."
+  exit 1
+fi
+
+set -e
+make server kernel
+sudo stty -F /dev/ttyUSB0 115200 raw -echo
+sudo bin/_srv

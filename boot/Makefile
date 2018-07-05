@@ -8,8 +8,7 @@ ELF_FILE = $(BUILD_DIR)/kernel8.elf
 KERN_DIR = ../kernel
 
 C_FILES += $(KERN_DIR)/drivers/uart.c $(KERN_DIR)/drivers/gpio.c
-C_FILES += $(KERN_DIR)/xmodem/client.c
-C_FILES += $(KERN_DIR)/util/stdlib.c $(KERN_DIR)/util/stdio.c
+C_FILES += $(KERN_DIR)/xmodem/client.c $(KERN_DIR)/util/stdlib.c
 ASM_FILES = $(KERN_DIR)/main/boot.S $(KERN_DIR)/util/utils.S
 
 OBJ_FILES = $(patsubst $(KERN_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_FILES))

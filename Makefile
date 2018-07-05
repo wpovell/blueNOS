@@ -1,10 +1,10 @@
 include make/common.mk
 
-.PHONY: all server kernel boot clean
-all: server kernel boot
+.PHONY: all srv kernel boot clean
+all: srv kernel boot
 
-server:
-	@ cd server && $(MAKE) all
+srv:
+	@ cd srv && $(MAKE) all
 
 kernel:
 	@ cd kernel && $(MAKE) all

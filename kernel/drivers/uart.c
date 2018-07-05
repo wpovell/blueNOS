@@ -50,6 +50,19 @@ void uart_putc(char c) {
   put32(AUX_MU_IO_REG, c);
 }
 
+char uart_getc_timeout(int timeout) {
+  // Idle while waiting for data
+  uint32_t res;
+  for (int i = 0; i < timeout && !(res = (get32(AUX_MU_LSR_REG) & 1)); i++)
+    ;
+
+  if (!res) {
+    return 0;
+  } else {
+    return (get32(AUX_MU_IO_REG) & 0xFF);
+  }
+}
+
 char uart_getc(void) {
   // Idle while waiting for data
   while (!(get32(AUX_MU_LSR_REG) & 1))

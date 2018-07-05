@@ -36,7 +36,7 @@ void gets(char *buf, int buflen) {
   int i;
   char c;
   // Leave a spot for null char in buffer
-  for (i = 0; (c = uart_getc()) != '\r' && buflen > 1; i++, buflen--) {
+  for (i = 0; (c = uart_getc()) != '\n' && buflen > 1; i++, buflen--) {
     putc(c);
     buf[i] = c;
   }
