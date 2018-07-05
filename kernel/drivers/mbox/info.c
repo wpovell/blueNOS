@@ -101,19 +101,18 @@ uint32_t mbox_get_max_temp(void) {
 void mbox_print_info(void) {
   mbox_mem_t mem = mbox_get_mem();
   mbox_mem_t vc_mem = mbox_get_vc_mem();
-  printf("INFO\n"
-         "\tFirmware: %d\n"
-         "\tModel: %d\n"
-         "\tRevision: %d\n"
-         "\tSerial: %d\n"
-         "\tMem:\n"
-         "\t\tBase: %x\n"
-         "\t\tSize: %x\n"
-         "\tVC Mem:\n"
-         "\t\tBase: %x\n"
-         "\t\tSize: %x\n"
-         "\tTemp: %d\n"
-         "\tMax Temp: %d\n",
+  printf("Firmware: %d\n"
+         "Model: %d\n"
+         "Revision: %d\n"
+         "Serial: %d\n"
+         "Mem:\n"
+         "\tBase: %x\n"
+         "\tSize: %x\n"
+         "VC Mem:\n"
+         "\tBase: %x\n"
+         "\tSize: %x\n"
+         "Temp: %d\n"
+         "Max Temp: %d\n",
          mbox_get_firmware(), mbox_get_model(), mbox_get_rev(),
          mbox_get_serial(), mem.base, mem.size, vc_mem.base, vc_mem.size,
          (uint32_t)C_TO_F(mbox_get_temp() / 1000),

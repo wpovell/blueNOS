@@ -5,6 +5,7 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 *(An OS only Blueno would use)*
 
 ## TODO
+- Tests
 - Memory Management
   - Paging (buddy system?)
   - kmalloc / kfree
@@ -19,8 +20,10 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 - Filesystem
   - SD Driver
   - FAT32
-  - S5FS
+  - S5FS?
 - Virtual Memory
+  - Get MMU working
+  - EL2 -> EL1
 - USB
   - Keyboard
   - Ethernet -> Networking stack

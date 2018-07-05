@@ -4,6 +4,20 @@
 #include "util/debug.h"
 #include "util/stdio.h"
 
+int is_printable(char c) {
+  if (c == '\n' || c == ' ' || c == '\t') {
+    return 1;
+  }
+
+  for (int i = 0; i < 8; i++) {
+    if (font8x8_basic[(int)c][i]) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
 void draw_char(char c, uint32_t x, uint32_t y, pixel_t color) {
   int size = PADDING + FONT_SIZE;
   KASSERT(x < buffer_width && y < buffer_height);

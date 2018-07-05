@@ -1,3 +1,4 @@
 enable_uart=1
 device_tree=
+disable_splash=1
 kernel_address=0x4000000

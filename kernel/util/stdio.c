@@ -5,27 +5,33 @@
 #include "util/stdlib.h"
 #include <stdarg.h>
 
+// Don't print to screen if in bootloader
+#ifdef __BOOTLOADER__
+uint8_t print_screen = 0;
+#else
 uint8_t print_screen = 1;
+#endif
+
 uint32_t font_x = 0;
 uint32_t font_y = 0;
 
 void putc(char c) {
-  // TODO: Handle delete / special chars
-// Don't print to screen if in bootloader
-#ifndef __BOOTLOADER__
-  if (print_screen) {
+  // TODO: Handle delete
+  if (print_screen && is_printable(c)) {
     draw_char(c, font_x, font_y, WHITE);
     if (c == '\n') {
       font_y++;
       font_x = 0;
     } else {
       font_x++;
+      if (c == '\t') {
+        font_x++;
+      }
     }
     if (font_y > N_ROWS) {
       // TODO: Scroll when out of space
     }
   }
-#endif
   uart_putc(c);
 }
 char getc(void) { return uart_getc(); }

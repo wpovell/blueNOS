@@ -4,6 +4,7 @@
 #include "util/stdio.h"
 #include <stdint.h>
 
+// TODO: Copy over a full strings.h
 int strlen(char *str) {
   int i = 0;
   for (; str[i]; i++)
