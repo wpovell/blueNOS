@@ -25,7 +25,6 @@ void kshell() {
   while (1) {
     printf(">> ");
     gets(buf, 250);
-    printf("::%s\n", buf);
     if (streq("reboot", buf)) {
       reboot();
     } else if (streq("info", buf)) {

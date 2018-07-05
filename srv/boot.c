@@ -15,8 +15,6 @@ uint8_t pac_num(void) { return (uint8_t)(packet_num % 256); }
 uint8_t pac_cmp(void) { return 255 - pac_num(); }
 
 int cancel;
-// sighandler_t old;
-
 void cancelHandler(int sig) {
   cancel = 1;
   printf("\n");
@@ -34,14 +32,16 @@ int transfer(void) {
   sigIntHandler.sa_flags = 0;
   sigaction(SIGINT, &sigIntHandler, NULL);
 
-  // Time to wait!
-  cancel = 0;
+  // Select setup
   fd_set read_fds, write_fds, except_fds;
   struct timeval timeout;
   FD_ZERO(&read_fds);
   FD_ZERO(&write_fds);
   FD_ZERO(&except_fds);
   FD_SET(dev, &read_fds);
+
+  // Time to wait!
+  cancel = 0;
   while (!cancel) {
     // Setup timeout for device read
     timeout.tv_sec = 1;
@@ -61,9 +61,9 @@ int transfer(void) {
   if (cancel) {
     return 1;
   }
-  printf("NAK recieved, sending SOH and starting transfer\n");
 
   // Start transfer
+  printf("NAK recieved, sending SOH and starting transfer\n");
   pc(dev, SOH);
 
   // Read off trailing NAKs

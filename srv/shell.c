@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 struct termios orig_termios;
-int rawMode;
+int rawMode = 0;
 void disableRawMode(void) {
   if (rawMode) {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);

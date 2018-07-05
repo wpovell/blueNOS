@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
   if (inp < 0) {
     printf("Failed to open input \"%s\".\n", inpf);
   }
-  if (!inp || !dev) {
+  if (inp < 0 || dev < 0) {
     return 1;
   }
 

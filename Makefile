@@ -13,7 +13,7 @@ boot:
 	@ cd boot && $(MAKE) all
 
 clean:
-	@ cd server && $(MAKE) clean
+	@ cd srv && $(MAKE) clean
 	@ cd kernel && $(MAKE) clean
 	@ cd boot && $(MAKE) clean
 
@@ -33,7 +33,7 @@ dbg: kernel
 	killall $(QEMU)
 
 ikern: kernel
-	sudo ./bin/install.sh $(KERN_IMG)
+	sudo ./bin/install $(KERN_IMG)
 
 iboot: boot
-	sudo ./bin/install.sh build/boot/kernel8.img
+	sudo ./bin/install build/boot/kernel8.img

@@ -4,9 +4,6 @@
 #include "util/debug.h"
 #include "util/stdio.h"
 
-#define PADDING 3
-#define FONT_SIZE 8
-
 void draw_char(char c, uint32_t x, uint32_t y, pixel_t color) {
   int size = PADDING + FONT_SIZE;
   KASSERT(x < buffer_width && y < buffer_height);

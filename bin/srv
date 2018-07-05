@@ -6,6 +6,6 @@ if [[ $? -eq 0 ]]; then
 fi
 
 set -e
-make server kernel
+make srv kernel
 sudo stty -F /dev/ttyUSB0 115200 raw -echo
 sudo bin/_srv

@@ -20,6 +20,9 @@ void putc(char c) {
     } else {
       font_x++;
     }
+    if (font_y > N_ROWS) {
+      // TODO: Scroll when out of space
+    }
   }
 #endif
   uart_putc(c);
