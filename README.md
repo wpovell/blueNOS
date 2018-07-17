@@ -37,7 +37,6 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 ### Software
 - `aarch64-linux-gnu v8.1.0` cross-compiler toolchain
 - `qemu-system-aarch64 v2.12.0` to emulate the RPi
-- `minicom` to interact with RPi over UART
 
 ### Hardware
 - Raspberry Pi 3 B+
