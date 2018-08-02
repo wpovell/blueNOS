@@ -55,6 +55,12 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
 - `uart.sh [usb dev]`: Starts screen connected to UART. Defaults to `/dev/ttyUSB0`
 - `server <device> <file>`: Script used to transfer kernel to bootloader over UART.
 
+### Running
+There are a couple options to run the OS
+- Install the kernel directly with `make ikern`
+- Install the bootloader with `make iboot` and chain load the kernel over UART
+- Run the kernel in QEMU with `make run`
+
 ## Kernel Memory Layout
 (not to scale)
 ```
