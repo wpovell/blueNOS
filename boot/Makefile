@@ -1,5 +1,4 @@
-include ../make/common.mk
-include ../make/arm.mk
+include ../common.mk
 
 BUILD_DIR = ../build/boot
 
