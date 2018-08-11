@@ -8,6 +8,7 @@
 #include <sys/select.h>
 #include <unistd.h>
 
+// Included from client code
 extern inline int checksum(uint8_t *buf);
 
 int packet_num;
@@ -67,6 +68,7 @@ int transfer(void) {
   pc(dev, SOH);
 
   // Read off trailing NAKs
+  // @TODO: This feels hacky
   while (select(dev + 1, &read_fds, &write_fds, &except_fds, &timeout)) {
     gc(dev);
   }

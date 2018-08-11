@@ -14,3 +14,5 @@
     printf("PANIC: %s\r\n", #x);                                               \
     __asm__ volatile("hlt #0");                                                \
   } while (0)
+
+// @TODO: Add more functions here such as dbg
