@@ -62,8 +62,11 @@ main:
   mrs x1, cpacr_el1
   orr x1, x1, #(0b11 << 20)
   msr cpacr_el1, x1
-  isb                                    // Flushes pipeline so change takes effect before any other instructions are executed
-                                         // This isn't actually necessary since any floating point ops are pretty far removed from here.
+  /*
+    Flushes pipeline so change takes effect before any other instructions are executed
+    This isn't actually necessary since any floating point ops are pretty far removed from here.
+  */
+  isb
 
   /* SETUP STACK */
   mov x0, #0x80000
