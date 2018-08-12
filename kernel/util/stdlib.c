@@ -8,6 +8,13 @@ void *memcpy(void *dest, const void *src, size_t len) {
   return dest;
 }
 
+void *memset(void *dest, int c, size_t n) {
+  int *d = dest;
+  while (n--)
+    *d++ = c;
+  return dest;
+}
+
 char *itoa(int num, int base) {
   static char intbuf[32];
   uint32_t j = 0, isneg = 0, i;

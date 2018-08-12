@@ -4,9 +4,9 @@
 /*
 Code from raspi3-tutorial
 Seems that it's related to forcing the watchdog timer to expire
-See (https://en.wikipedia.org/wiki/Watchdog_timer)
-TODO: Understand what's actually going on here.
-      What's with the "magic"?
+See: (https://en.wikipedia.org/wiki/Watchdog_timer)
+@TODO: Understand what's actually going on here.
+       What's with the "magic"?
 */
 
 #define PM_RSTC (PBASE + 0x0010001c)

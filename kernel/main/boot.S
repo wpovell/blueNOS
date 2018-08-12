@@ -18,7 +18,7 @@ start:
 
   /* Enable CNTP for EL1
   See: http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0488d/ch09s03s01.html
-  Q: I don't have a strong understanding of what exactly this does
+  @QUESTION: I don't have a strong understanding of what exactly this does
   */
   mrs     x0, cnthctl_el2
   orr     x0, x0, #0b11
@@ -30,8 +30,8 @@ start:
   */
   mov x0, #(1 << 31)                     // Enable AArch64
   orr x0, x0, #(1 << 1)                  // Enable SWIO
-                                         // Q: This has to do with cache invalidation but I don't
-                                         //    actually understand what this is for.
+                                         // @QUESTION: This has to do with cache invalidation but I don't
+                                         //            actually understand what this is for.
   msr hcr_el2, x0
   mrs x0, hcr_el2
 

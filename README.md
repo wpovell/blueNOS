@@ -93,15 +93,6 @@ There are a couple options to run the OS
 ┗━━━━━━━━━━━━━━━━━━ 0x00000000
 ```
 
-## Comments
-
-I think OSs are pretty confusing to want to have pretty thorough commenting in this project,
-if not only to prove to myself I understand what is going on. I'd like to keep the following norms:
-- All functions get a header comment with description & args
-- `// NOTE:` An interesting behavior or something to keep in mind
-- `// TODO:` Something to do
-- `// Q:` An unresolved question I have
-
 ## Thanks / Resources
 
 The [BCM2835 Peripheral Manual](https://web.stanford.edu/class/cs140e/docs/BCM2837-ARM-Peripherals.pdf)

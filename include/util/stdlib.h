@@ -4,6 +4,7 @@
 
 char *itoa(int num, int base);
 void *memcpy(void *dest, const void *src, size_t len);
+void *memset(void *dest, int c, size_t n);
 
 // Defined in ASM (utils.S) for simplicity
 extern void delay(uint64_t);

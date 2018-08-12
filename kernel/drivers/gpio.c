@@ -3,7 +3,7 @@
 #include "util/stdlib.h"
 
 /* All the magic here is described in Section 6 */
-// QUESTION: What's the point of GPIO pins above 27?
+// @QUESTION: What's the point of GPIO pins above 27?
 
 #define GPBASE (PBASE + 0x00200000)
 

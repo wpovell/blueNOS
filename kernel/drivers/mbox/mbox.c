@@ -8,7 +8,7 @@
 */
 
 // Shared mailbox buffer
-// NOTE: Volatile is necessary at -O2 and higher. Presumably since this array
+// @NOTE: Volatile is necessary at -O2 and higher. Presumably since this array
 //       is shared between CPU and GPU.
 volatile uint32_t __attribute__((aligned(16))) mbox[36];
 

@@ -24,7 +24,7 @@ Haven't been able to find any actual documentation for this.
 #define RNG_WARMUP_COUNT 0x40000
 
 void hrand_init(void) {
-  // NOTE: Other srcs mask interrupts here?
+  // @NOTE: Other srcs mask interrupts here?
   put32(RNG_STATUS, RNG_WARMUP_COUNT);
   put32(RNG_CTRL, RNG_RBGEN);
 }
@@ -32,9 +32,9 @@ void hrand_init(void) {
 /*
   Returns a large random number.
   Unclear what RAND_MAX is.
-  NOTE: There is no checking that hrand is actually enabled.
-  QUESTION: What prevents two rapid reads from getting the same number here?
-            Is the underlying peripheral aware of the read?
+  @NOTE: There is no checking that hrand is actually enabled.
+  @QUESTION: What prevents two rapid reads from getting the same number here?
+             Is the underlying peripheral aware of the read?
 */
 uint32_t hrand(void) {
   // Wait for some entropy

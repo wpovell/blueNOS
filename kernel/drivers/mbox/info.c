@@ -89,7 +89,7 @@ uint32_t mbox_get_serial(void) {
 mbox_mem_t mbox_get_mem(void) {
   uint32_t *buf = set_msg(MEM_TAG, 8);
   mbox_call(PROP_CHANNEL);
-  // NOTE: Casting buf -> (mbox_mem_t *) works on QEMU but not on hardware
+  // @NOTE: Casting buf -> (mbox_mem_t *) works on QEMU but not on hardware
   mbox_mem_t ret = {buf[0], buf[1]};
   return ret;
 }
@@ -113,8 +113,7 @@ uint32_t mbox_get_max_temp(void) {
   return (uint32_t)C_TO_F(buf[1] / 1000);
 }
 
-// TODO: Mac addr & cmdline
-
+// @TODO: Mac addr & cmdline
 void mbox_print_info(void) {
   mbox_mem_t mem = mbox_get_mem();
   mbox_mem_t vc_mem = mbox_get_vc_mem();

@@ -25,7 +25,7 @@ int xmodem_read(void) {
   while (1) {
     // <- Packet #
     uint8_t res = uart_getc();
-    // TODO: What if pac_num == EOT?
+    // @TODO: What if pac_num == EOT?
     if (res == pac_num) {
       // Do nothing
     } else if (res == EOT) { // EOT

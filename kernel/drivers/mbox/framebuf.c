@@ -38,7 +38,7 @@ int framebuf_init(uint32_t width, uint32_t height) {
   mbox[11] = height;
 
   // Virtual Offset
-  // NOTE: This seems like a reasonable default, but will not work without!
+  // @NOTE: This seems like a reasonable default, but will not work without!
   mbox[12] = BUF_VIRT_OFF_TAG;
   mbox[13] = 4 * 2;
   mbox[14] = 0;
@@ -46,14 +46,14 @@ int framebuf_init(uint32_t width, uint32_t height) {
   mbox[16] = 0;
 
   // Depth
-  // NOTE: Only 32bit seems to work
+  // @NOTE: Only 32bit seems to work
   mbox[17] = BUF_DEPTH_TAG;
   mbox[18] = 4 * 1;
   mbox[19] = REQ_CODE;
   mbox[20] = 32;
 
   // Pixel Order
-  // NOTE: This doesn't seem effective, but removing breaks things.
+  // @NOTE: This doesn't seem effective, but removing breaks things.
   mbox[21] = BUF_PIXEL_ORD_TAG;
   mbox[22] = 4 * 1;
   mbox[23] = REQ_CODE;

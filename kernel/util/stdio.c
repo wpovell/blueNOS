@@ -16,7 +16,7 @@ uint32_t font_x = 0;
 uint32_t font_y = 0;
 
 void putc(char c) {
-  // TODO: Handle delete
+  // @TODO: Handle delete
   if (print_screen && is_printable(c)) {
     draw_char(c, font_x, font_y, WHITE);
     if (c == '\n') {
@@ -29,7 +29,7 @@ void putc(char c) {
       }
     }
     if (font_y > N_ROWS) {
-      // TODO: Scroll when out of space
+      // @TODO: Scroll when out of space
     }
   }
   uart_putc(c);
