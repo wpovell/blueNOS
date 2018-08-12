@@ -34,25 +34,10 @@ void kshell() {
   }
 }
 
-void printEL() {
+uint32_t getEL() {
   uint64_t currentEL = 0;
   asm("mrs     %0, CurrentEL;" : "=r"(currentEL));
-  printf("Current EL: ");
-  switch (currentEL) {
-  case 0:
-    printf("0");
-    break;
-  case 4:
-    printf("1");
-    break;
-  case 8:
-    printf("2");
-    break;
-  case 12:
-    printf("3");
-    break;
-  }
-  printf("\n");
+  return (currentEL) >> 2;
 }
 
 uint32_t width = 1024;
@@ -60,6 +45,6 @@ uint32_t height = 768;
 void kernel_main(void) {
   framebuf_init(width, height);
   printf("Welcome to BluenOS!\n");
-  printEL();
+  printf("CurrentEL: %d\n", getEL());
   kshell();
 }

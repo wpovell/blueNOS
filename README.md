@@ -99,9 +99,9 @@ There are a couple options to run the OS
 I think OSs are pretty confusing to want to have pretty thorough commenting in this project,
 if not only to prove to myself I understand what is going on. I'd like to keep the following norms:
 - All functions get a header comment with description & args
-- `// @NOTE:` An interesting behavior or something to keep in mind
-- `// @TODO(topic):` Something to do for `topic` (optional)
-- `// @Q:` An unresolved question I have
+- `// NOTE:` An interesting behavior or something to keep in mind
+- `// TODO:` Something to do
+- `// Q:` An unresolved question I have
 
 ## Thanks / Resources
 
