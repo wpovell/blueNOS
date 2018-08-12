@@ -23,7 +23,6 @@ My work on an ARMv8 OS for the Raspberry Pi 3.
   - S5FS?
 - Virtual Memory
   - Get MMU working
-  - EL2 -> EL1
 - USB
   - Keyboard
   - Ethernet -> Networking stack
