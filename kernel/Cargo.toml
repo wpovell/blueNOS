@@ -1,0 +1,15 @@
+[package]
+name = "kernel"
+version = "0.1.0"
+
+[lib]
+crate-type = ["staticlib"]
+name = "kernel"
+path = "src/kmain.rs"
+
+[profile.dev]
+panic = "abort"
+
+[profile.test]
+
+[dependencies]
