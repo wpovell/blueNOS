@@ -77,6 +77,7 @@ impl Iterator for ATags {
     fn next(&mut self) -> Option<ATag> {
         unsafe {
             let tag: ATag = *self.cur;
+            // @TODO: Don't understand clippy complaint here
             self.cur = (self.cur as *const u32).offset(tag.head.size as isize) as *const ATag;
             match tag.head.typ {
                 CORE | MEM | CMD => Some(tag),

@@ -25,8 +25,8 @@ pub extern "C" fn kmain() -> ! {
     gpio::set_func(16, gpio::PinFunc::Output);
     loop {
         gpio::set(16, true);
-        time::spin_sleep_ins(1000);
+        time::delay(1000);
         gpio::set(16, false);
-        time::spin_sleep_ins(1000);
+        time::delay(1000);
     }
 }

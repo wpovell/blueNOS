@@ -2,13 +2,15 @@
 //!
 //! Magic here is described in Section 12
 
-/// Spin sleep for approximately `ms`
+/// Spin sleep for approximately `inst` instructions
 #[inline(never)]
-pub fn spin_sleep_ins(ms: usize) {
-    for _ in 0..(ms * 600) {
-        unsafe {
-            asm!("nop" :::: "volatile");
-        }
+pub fn delay(inst: usize) {
+    unsafe {
+        asm!("
+        delay:
+        subs $0, $0, #1
+        bne delay
+        " : : "r"(inst) : );
     }
 }
 

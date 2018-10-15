@@ -64,11 +64,11 @@ pub fn set_pull(pin: u8, pull: PinPull) {
     unsafe {
         // Set pull
         GPPUD.write_volatile(pull as u32);
-        time::spin_sleep_ins(150);
+        time::delay(150);
 
         // Set Clock
         GPPUDCLK0.write_volatile(pull as u32);
-        time::spin_sleep_ins(150);
+        time::delay(150);
 
         // Clear Clock
         GPPUD.write_volatile(0);
