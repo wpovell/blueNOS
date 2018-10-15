@@ -1,3 +1,6 @@
+//! Module to control GPIO pins
+//! Magic is described in Section 6
+
 use drivers::time;
 
 const GPIO_BASE: usize = super::P_BASE + 0x0020_0000;
@@ -22,6 +25,9 @@ pub enum PinFunc {
     F3 = 7,
 }
 
+/// Set function of `pin`.
+/// Mainly [PinFunc::Input] and [PinFunc::Output] are used. The other functions are different for different registers.
+/// For example, UART uses pins 14 and 15 with [PinFunc::F5]
 pub fn set_func(pin: u8, f: PinFunc) {
     assert!(valid_pin(pin));
 
@@ -47,6 +53,10 @@ const GPPUD: *mut u32 = (GPIO_BASE + 0x94) as *mut u32;
 const GPPUDCLK0: *mut u32 = (GPIO_BASE + 0x98) as *mut u32;
 const GPPUDCLK1: *mut u32 = (GPIO_BASE + 0x9C) as *mut u32;
 
+/// Set pull of `pin`.
+/// My understanding is that [PinPull::Down] defaults the pin to off, and [PinPull::Up] does the opposite.
+/// Not sure about [PinPull::None].
+/// This call will spin
 pub fn set_pull(pin: u8, pull: PinPull) {
     assert!(valid_pin(pin));
 
@@ -70,6 +80,7 @@ const GPSET1: *mut u32 = (GPIO_BASE + 0x20) as *mut u32;
 const GPCLR0: *mut u32 = (GPIO_BASE + 0x28) as *mut u32;
 const GPCLR1: *mut u32 = (GPIO_BASE + 0x2C) as *mut u32;
 
+/// Set output of `pin`
 pub fn set(pin: u8, val: bool) {
     assert!(valid_pin(pin));
 

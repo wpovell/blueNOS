@@ -13,7 +13,7 @@ QEMU = qemu-system-aarch64
 QEMU_FLAGS = -M raspi3 -kernel
 GDB = aarch64-linux-gnu-gdb
 
-.PHONY: all clean qemu dbg
+.PHONY: all clean qemu dbg doc
 
 all: $(IMG)
 
@@ -41,3 +41,6 @@ dbg: $(IMG) $(ELF)
 
 clean:
 	rm -rf build/* target
+
+doc:
+	cargo rustdoc --open -- --document-private-items

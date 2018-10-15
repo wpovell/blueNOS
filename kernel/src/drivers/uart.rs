@@ -1,3 +1,6 @@
+//! Functions to setup and perform I/O with the UART
+//! Magic here is described in Section 2
+
 use drivers::gpio::*;
 
 const AUX_BASE: usize = (super::P_BASE + 0x0021_5000);
@@ -22,6 +25,9 @@ const AUX_MU_CNTL_REG: *mut u32 = (AUX_BASE + 0x60) as *mut u32;
 const AUX_MU_BAUD_REG: *mut u32 = (AUX_BASE + 0x68) as *mut u32;
 
 static mut SETUP: bool = false;
+
+/// Initializes UART.
+/// Other functions in module will panic if this is not called first.
 pub fn init() {
     set_func(14, PinFunc::F5);
     set_func(15, PinFunc::F5);
@@ -57,6 +63,8 @@ pub fn init() {
     }
 }
 
+/// Writes character to UART.
+/// May spin if previous write hasn't finished.
 pub fn putc(c: char) {
     unsafe {
         assert!(SETUP);
@@ -68,12 +76,15 @@ pub fn putc(c: char) {
     }
 }
 
+/// Prints all characters in `s` to UART via [putc]
 pub fn print(s: &str) {
     for c in s.chars() {
         putc(c);
     }
 }
 
+/// Returns character from UART.
+/// May spin if no character currently read
 pub fn getc() -> char {
     unsafe {
         assert!(SETUP);
@@ -84,6 +95,7 @@ pub fn getc() -> char {
     }
 }
 
+/// Like [getc], but times out after `timeout` loops
 pub fn getc_timeout(timeout: u64) -> Option<char> {
     let mut res = 0;
     let mut i = 0;
