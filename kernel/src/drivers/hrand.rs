@@ -1,4 +1,5 @@
 //! Module to interface with hardware randomness
+//!
 //! Based on these sources [1], [2]
 //!
 //! [1]: https://github.com/thenaran/linux-rpi/blob/master/drivers/char/hw_random/bcm2708-rng.c
@@ -28,7 +29,7 @@ pub fn init() {
     }
 }
 
-/// Initializes faster, less random version of hrand 
+/// Initializes faster, less random version of hrand
 pub fn fast_init() {
     unsafe {
         STATUS.write_volatile(WARMUP_COUNT);

@@ -1,4 +1,5 @@
 //! Time related functions
+//!
 //! Magic here is described in Section 12
 
 /// Spin sleep for approximately `ms`

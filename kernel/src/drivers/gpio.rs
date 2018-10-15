@@ -1,4 +1,5 @@
 //! Module to control GPIO pins
+//!
 //! Magic is described in Section 6
 
 use drivers::time;

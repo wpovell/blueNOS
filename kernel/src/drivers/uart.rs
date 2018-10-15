@@ -1,27 +1,28 @@
 //! Functions to setup and perform I/O with the UART
+//!
 //! Magic here is described in Section 2
 
 use drivers::gpio::*;
 
 const AUX_BASE: usize = (super::P_BASE + 0x0021_5000);
 
-// Enable
+/// Enable
 const AUX_ENB: *mut u32 = (AUX_BASE + 0x04) as *mut u32;
-// IO
+/// IO
 const AUX_MU_IO_REG: *mut u32 = (AUX_BASE + 0x40) as *mut u32;
-// Interrupt
+/// Interrupt
 const AUX_MU_IER_REG: *mut u32 = (AUX_BASE + 0x44) as *mut u32;
-// FIFO
+/// FIFO
 const AUX_MU_IIR_REG: *mut u32 = (AUX_BASE + 0x48) as *mut u32;
-// Data Format
+/// Data Format
 const AUX_MU_LCR_REG: *mut u32 = (AUX_BASE + 0x4C) as *mut u32;
-// RTS
+/// RTS
 const AUX_MU_MCR_REG: *mut u32 = (AUX_BASE + 0x50) as *mut u32;
-// Data Status
+/// Data Status
 const AUX_MU_LSR_REG: *mut u32 = (AUX_BASE + 0x54) as *mut u32;
-// Control trans/recv
+/// Control trans/recv
 const AUX_MU_CNTL_REG: *mut u32 = (AUX_BASE + 0x60) as *mut u32;
-// Baudrate
+/// Baudrate
 const AUX_MU_BAUD_REG: *mut u32 = (AUX_BASE + 0x68) as *mut u32;
 
 static mut SETUP: bool = false;

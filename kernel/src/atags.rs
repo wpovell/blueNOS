@@ -1,4 +1,5 @@
 //! Module to parse ATAGs
+//!
 //! See [here](http://www.simtec.co.uk/products/SWLINUX/files/booting_article.html) for where most of these magic numbers came from
 
 /// Denotes end of ATAGs
