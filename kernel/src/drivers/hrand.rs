@@ -37,8 +37,8 @@ pub fn fast_init() {
     }
 }
 
-/// Returns a large random number.
-/// Unclear what RAND_MAX is.
+/// Returns a random u32.
+/// This call will spin
 /// @TODO: Check that hrand is enabled
 /// @QUESTION: What prevents two rapid reads from getting the same number here?
 fn hrand() -> u32 {

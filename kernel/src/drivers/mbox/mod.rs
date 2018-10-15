@@ -6,8 +6,8 @@ use drivers;
 const BASE: usize = drivers::P_BASE + 0xB880;
 
 const READ: usize = BASE;
-const STATUS: usize = BASE + 0x18;
+const STATUS: *const u32 = (BASE + 0x18) as *const u32;
 const WRITE: usize = BASE + 0x20;
 
-const READ_EMPTY: usize = 1 << 30;
-const WRITE_FULL: usize = 1 << 31;
+const READ_EMPTY: u32 = 1 << 30;
+const WRITE_FULL: u32 = 1 << 31;
