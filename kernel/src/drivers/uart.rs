@@ -1,6 +1,6 @@
 use drivers::gpio::*;
 
-const AUX_BASE: usize = (super::P_BASE + 0x00215000);
+const AUX_BASE: usize = (super::P_BASE + 0x0021_5000);
 
 // Enable
 const AUX_ENB: *mut u32 = (AUX_BASE + 0x04) as *mut u32;

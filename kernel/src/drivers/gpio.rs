@@ -1,6 +1,6 @@
 use drivers::time;
 
-const GPIO_BASE: usize = super::P_BASE + 0x200000;
+const GPIO_BASE: usize = super::P_BASE + 0x0020_0000;
 
 const fn fsel_reg(x: u8) -> *mut u32 {
     (GPIO_BASE + (x as usize) * 0x4) as *mut u32

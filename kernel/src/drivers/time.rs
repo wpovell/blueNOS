@@ -31,6 +31,6 @@ pub fn get_systime() -> u64 {
             low = TIMER_LOW.read_volatile();
         }
 
-        ((hi as u64) << 32) | (low as u64)
+        (u64::from(hi) << 32) | u64::from(low)
     }
 }
