@@ -10,13 +10,14 @@ use drivers;
 
 const BASE: usize = drivers::P_BASE + 0x0010_0000;
 const RSTC: *mut u32 = (BASE + 0x1c) as *mut u32;
-const RSTS: *const u32 = (BASE + 0x20) as *const u32;
+const RSTS: *mut u32 = (BASE + 0x20) as *mut u32;
 const WDOG: *mut u32 = (BASE + 0x24) as *mut u32;
 
 const TIME_SET: u32 = 0x000f_ffff;
 const RSTC_WRCFG_CLR: u32 = 0xffff_ffcf;
 const RSTC_WRCFG_FULL_RESET: u32 = 0x0000_0020;
 const RSTC_RESET: u32 = 0x0000_0102;
+const RSTS_HALT: u32 = 0x0555;
 const PASSWORD: u32 = 0x5a00_0000;
 
 /// Sets the watchdog to `timeout`
@@ -43,8 +44,17 @@ pub fn wdog_stop() {
 }
 
 /// Reboot the RPi
-/// 
+///
 /// Sets the watchdog to a small value and lets it expire
 pub fn reboot() {
     wdog_start(10);
+}
+
+pub fn shutdown() {
+    unsafe {
+        let mut val = RSTS.read_volatile();
+        val |= PASSWORD | RSTS_HALT;
+        RSTS.write_volatile(val);
+        reboot();
+    }
 }

@@ -6,6 +6,8 @@ pub mod hrand;
 pub mod mbox;
 pub mod power;
 pub mod time;
+
+#[macro_use]
 pub mod uart;
 
 /// Base memory mapped peripheral address Section 1.2.2

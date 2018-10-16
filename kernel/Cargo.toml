@@ -7,9 +7,17 @@ crate-type = ["staticlib"]
 name = "kernel"
 path = "src/kmain.rs"
 
+
 [profile.dev]
+# abort disables stack unwinding on panic
 panic = "abort"
 
-[profile.test]
+[profile.release]
+panic = "abort"
 
 [dependencies]
+spin = "0.4.9"
+
+[dependencies.lazy_static]
+version = "1.1.0"
+features = ["spin_no_std"]

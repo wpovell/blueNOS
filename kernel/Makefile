@@ -1,8 +1,12 @@
 CROSS = aarch64-none-elf
-RUST_FILES = $(shell find src/ -type f -name '*.rs')
 LD_SCRIPT = ext/layout.ld
 BOOT = ext/boot.S
 BUILD_DIR = build
+
+# Rust
+RUST_FILES = $(shell find src/ -type f -name '*.rs')
+# @NOTE: TARGET_PATH included to fix issue where xargo wouldn't build extern crates
+XARGO = RUST_TARGET_PATH="$(shell pwd)" xargo
 
 # Output files
 LIB = $(BUILD_DIR)/kernel.a
@@ -25,7 +29,7 @@ $(BUILD_DIR)/boot.o: ext/boot.S
 # Rust build
 $(LIB): $(RUST_FILES) Cargo.toml $(CROSS).json
 	cargo fmt
-	xargo build --target=$(CROSS)
+	$(XARGO) build --target=$(CROSS)
 	cp target/$(CROSS)/debug/libkernel.a $(LIB)
 
 # Linking

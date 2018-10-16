@@ -3,7 +3,6 @@
 //! Magic here is described in Section 12
 
 /// Spin sleep for approximately `inst` instructions
-#[inline(never)]
 pub fn delay(inst: usize) {
     unsafe {
         asm!("
@@ -14,11 +13,12 @@ pub fn delay(inst: usize) {
     }
 }
 
+/// @TODO: Test if this can be made into a single u64
 const TIMER_LOW: *mut u32 = (super::P_BASE + 0x3004) as *mut u32;
 const TIMER_HIGH: *mut u32 = (super::P_BASE + 0x3008) as *mut u32;
 
 /// Gets systime from RPi hardware clock in ms
-pub fn get_systime() -> u64 {
+pub fn sys() -> u64 {
     unsafe {
         let mut hi = TIMER_HIGH.read_volatile();
         let mut low = TIMER_LOW.read_volatile();

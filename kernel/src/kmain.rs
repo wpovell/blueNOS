@@ -1,19 +1,21 @@
 #![no_std]
-#![no_main]
 #![feature(compiler_builtins_lib, lang_items, asm)]
 #![allow(dead_code)]
 
-mod atags;
+#[macro_use]
 mod drivers;
+mod atags;
 mod graphics;
 mod lang;
 
-use drivers::{gpio, time, uart};
+#[macro_use]
+extern crate lazy_static;
+extern crate spin;
+
+use drivers::time::sys;
 
 /// Entry point into Rust code. It all starts here!
 #[no_mangle]
-pub extern "C" fn kmain() -> ! {
-    uart::init();
-    uart::print("hello world!");
+pub extern "C" fn kmain() -> core::fmt::Result {
     panic!()
 }

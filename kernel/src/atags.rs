@@ -2,71 +2,83 @@
 //!
 //! See [here](http://www.simtec.co.uk/products/SWLINUX/files/booting_article.html) for where most of these magic numbers came from
 
-/// Denotes end of ATAGs
-pub const NONE: u32 = 0x0000_0000;
+const CORE: u32 = 0x5441_0001;
+const MEM: u32 = 0x5441_0002;
+const NONE: u32 = 0x0000_0000;
+const CMD: u32 = 0x5441_0009;
 
 #[repr(packed)]
 #[derive(Copy, Clone)]
-pub struct Header {
+struct Header {
     pub size: u32,
     pub typ: u32,
 }
 
-/// Holds information about available memory
 #[repr(packed)]
 #[derive(Copy, Clone)]
-pub struct Mem {
+struct Mem {
     pub size: u32,
     pub start: u32,
 }
-pub const MEM: u32 = 0x5441_0002;
 
-/// First ATAG
 #[repr(packed)]
 #[derive(Copy, Clone)]
-pub struct Core {
+struct Core {
     pub flags: u32,
     pub pagesize: u32,
     pub rootdev: u32,
 }
-pub const CORE: u32 = 0x5441_0001;
 
-/// Holds data from commandline, usually stored in cmdline.txt on the boot filesystem
-/// @TODO: I've never had this work
-/// @NOTE: `cmd` is a null-terminated string
 #[repr(packed)]
 #[derive(Copy, Clone)]
-pub struct Command {
+struct Command {
     pub cmd: *const u8,
 }
-pub const CMD: u32 = 0x5441_0009;
 
 #[repr(packed)]
 #[derive(Copy, Clone)]
-pub union Tag {
-    pub core: Core,
-    pub mem: Mem,
-    pub cmd: Command,
+union Tag {
+    core: Core,
+    mem: Mem,
+    cmd: Command,
 }
 
-/// Single ATAG
+/// Raw C-style struct for parsing memory
 #[repr(packed)]
 #[derive(Copy, Clone)]
-pub struct ATag {
-    pub head: Header,
-    pub body: Tag,
-    pub cmd: Tag,
+struct RawATag {
+    head: Header,
+    body: Tag,
+    cmd: Tag,
 }
 
-const START: *const ATag = 0x100 as *const ATag;
+const START: *const RawATag = 0x100 as *const RawATag;
 
 /// Iterator that returns ATAGs present on system
 pub struct ATags {
-    cur: *const ATag,
+    cur: *const RawATag,
+}
+
+#[derive(Debug)]
+pub enum ATag {
+    /// Holds information about available memory
+    Mem { size: u32, start: u32 },
+
+    /// First ATAG
+    Core {
+        flags: u32,
+        pagesize: u32,
+        rootdev: u32,
+    },
+
+    /// Holds data from commandline, usually stored in cmdline.txt on the boot filesystem
+    /// @TODO: I've never had this work
+    /// @NOTE: `cmd` is a null-terminated string
+    Cmd { cmd: *const u8 },
 }
 
 impl ATags {
-    pub fn new() -> ATags {
+    pub fn list() -> ATags {
         ATags { cur: START }
     }
 }
@@ -76,11 +88,23 @@ impl Iterator for ATags {
 
     fn next(&mut self) -> Option<ATag> {
         unsafe {
-            let tag: ATag = *self.cur;
+            let tag: RawATag = *self.cur;
+
             // @TODO: Don't understand clippy complaint here
-            self.cur = (self.cur as *const u32).offset(tag.head.size as isize) as *const ATag;
+            self.cur = (self.cur as *const u32).offset(tag.head.size as isize) as *const RawATag;
+
+            let body: Tag = tag.body;
             match tag.head.typ {
-                CORE | MEM | CMD => Some(tag),
+                MEM => Some(ATag::Mem {
+                    size: body.mem.size,
+                    start: body.mem.start,
+                }),
+                CORE => Some(ATag::Core {
+                    flags: body.core.flags,
+                    pagesize: body.core.pagesize,
+                    rootdev: body.core.rootdev,
+                }),
+                CMD => Some(ATag::Cmd { cmd: body.cmd.cmd }),
                 _ => None,
             }
         }
