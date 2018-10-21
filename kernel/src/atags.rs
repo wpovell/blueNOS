@@ -2,6 +2,9 @@
 //!
 //! See [here](http://www.simtec.co.uk/products/SWLINUX/files/booting_article.html) for where most of these magic numbers came from
 
+// See comment below about pointer alignment
+#![cfg_attr(feature = "cargo-clippy", allow(clippy::cast_ptr_alignment))]
+
 const CORE: u32 = 0x5441_0001;
 const MEM: u32 = 0x5441_0002;
 const NONE: u32 = 0x0000_0000;
@@ -90,7 +93,8 @@ impl Iterator for ATags {
         unsafe {
             let tag: RawATag = *self.cur;
 
-            // @TODO: Don't understand clippy complaint here
+            // Clippy complains here about pointer alignment when casting to a u32. I believe this is fine since
+            // a RawATag should have the same alignment, as it is a C-style struct and it's first element is a u32
             self.cur = (self.cur as *const u32).offset(tag.head.size as isize) as *const RawATag;
 
             let body: Tag = tag.body;

@@ -13,12 +13,12 @@ extern crate lazy_static;
 extern crate rand_core;
 extern crate spin;
 
-use drivers::hrand::RAND;
-use rand_core::RngCore;
+use drivers::time::sys;
 
 /// Entry point into Rust code. It all starts here!
 #[no_mangle]
 pub extern "C" fn kmain() -> core::fmt::Result {
-    println!("{}", RAND.lock().next_u32());
-    panic!()
+    loop {
+        println!("{}", sys());
+    }
 }
