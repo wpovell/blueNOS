@@ -1,5 +1,5 @@
 [package]
-name = "client"
+name = "bootloader"
 version = "0.1.0"
 authors = ["Will Povell <willipovell@gmail.com>"]
 

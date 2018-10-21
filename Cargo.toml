@@ -1,0 +1,9 @@
+[workspace]
+
+members = [
+    "kernel",
+    "client",
+    "pi",
+    "xmodem",
+    "bootloader",
+]
